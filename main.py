@@ -5,6 +5,10 @@ from services.mapper import map_flexibility_row
 
 app = FastAPI()
 
+@app.get("/prices")
+def read_summary():
+    df = get_energy_data()
+    return df.to_dict(orient="records")
 
 @app.get("/prices/summary")
 def read_summary():
@@ -22,5 +26,4 @@ def read_flexibility():
     df = get_energy_data()
     flex = get_flexibility(df)
     flex_rows = flex.to_dict(orient="records")
-
     return [map_flexibility_row(row) for row in flex_rows]

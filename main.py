@@ -1,7 +1,7 @@
-from typing import Union
-
 from fastapi import FastAPI
 from data.provider import get_energy_data
+from services.flexibilityAnalyser import get_flexibility
+from services.mapper import map_flexibility_row
 
 app = FastAPI()
 
@@ -17,6 +17,10 @@ def read_summary():
     }
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/flexibility/windows")
+def read_flexibility():
+    df = get_energy_data()
+    flex = get_flexibility(df)
+    flex_rows = flex.to_dict(orient="records")
+
+    return [map_flexibility_row(row) for row in flex_rows]

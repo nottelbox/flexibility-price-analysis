@@ -20,7 +20,6 @@ def read_summary():
         "price_volatility": df["price_eur_mwh"].std(),
     }
 
-
 @app.get("/flexibility/windows")
 def read_flexibility():
     df = get_energy_data()

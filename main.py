@@ -1,21 +1,18 @@
 from typing import Union
 
 from fastapi import FastAPI
+from data.provider import get_energy_data
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-@app.get("prices/summary")
-def summary():
+@app.get("/prices/summary")
+def read_summary():
+    df = get_energy_data()
     return {
-        "average_price": 70,
-        "min_price": 50,
-        "max_price": 100,
-        "price_volatility": 5,
+        "average_price": df["price_eur_mwh"].mean(),
+        "min_price": df["price_eur_mwh"].min(),
+        "max_price": df["price_eur_mwh"].max(),
     }
 
 

@@ -13,6 +13,7 @@ def read_summary():
         "average_price": df["price_eur_mwh"].mean(),
         "min_price": df["price_eur_mwh"].min(),
         "max_price": df["price_eur_mwh"].max(),
+        "price_volatility": df["price_eur_mwh"].std(),
     }
 
 
